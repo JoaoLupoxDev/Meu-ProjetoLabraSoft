@@ -64,12 +64,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CadastroCoordenador.aspx" />
     <Content Include="Web.config" />
     <Content Include="CadastroBolsista.aspx" />
     <Content Include="ExemploBolsista.aspx" />
     <Content Include="Web\Formulario.html" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CadastroCoordenador.aspx.cs">
+      <DependentUpon>CadastroCoordenador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastroCoordenador.aspx.designer.cs">
+      <DependentUpon>CadastroCoordenador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Coordenador.cs" />
     <Compile Include="Models\Bolsista.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site1.Master.cs">

@@ -18,7 +18,7 @@ namespace WebApplication1
             AlunoTeste.Sexo = "Masculino";
             AlunoTeste.DataNascimento = new DateTime(2007, 05, 09);
 
-            string resultado = $"Nome: {AlunoTeste.Nome}\n Matricula: {AlunoTeste.Matricula}\n CPF: {AlunoTeste.CPF}\n Sexo: {AlunoTeste.Sexo}\n Data de Nascimento: {AlunoTeste.DataNascimento}";
+            string resultado = $"Nome: {AlunoTeste.Nome}\n Matricula: {AlunoTeste.Matricula}\n CPF: {AlunoTeste.CPF}\n Sexo: {AlunoTeste.Sexo}\n Idade: {AlunoTeste.IdadeBolsista()}";
 
             lblResultado.Text = resultado;
 

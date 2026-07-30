@@ -16,9 +16,7 @@ namespace WebApplication1.Models
         public string Resumo()
         {
             Console.WriteLine("Resumo do Bolsista: ");
-            Console.WriteLine("Nome: " + Nome);
-            Console.WriteLine("Matricula: " +  Matricula);
-            string Resumo = $"Resumo do Bolsista:\n Nome: {Nome}\n Matricula: {Matricula}";
+            string Resumo = $"Bolsista {Nome} cadastrado!\n Matrícula: {Matricula}\n Idade: {IdadeBolsista()}";
             return Resumo;
         }     
         public int IdadeBolsista()
@@ -27,6 +25,5 @@ namespace WebApplication1.Models
             return Idade;
         }
     }
-
 
 }

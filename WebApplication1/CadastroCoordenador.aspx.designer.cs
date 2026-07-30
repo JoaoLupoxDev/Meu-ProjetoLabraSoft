@@ -11,7 +11,7 @@ namespace WebApplication1
 {
 
 
-    public partial class WebForm1
+    public partial class CadastroCoordenador
     {
 
         /// <summary>
@@ -33,31 +33,31 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtBoxCPF;
 
         /// <summary>
-        /// Controle txtBoxMatricula.
+        /// Controle txtBoxTitulacao.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBoxMatricula;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxTitulacao;
 
         /// <summary>
-        /// Controle txtBoxDate.
+        /// Controle txtBoxAreaAtuacao.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBoxDate;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxAreaAtuacao;
 
         /// <summary>
-        /// Controle ddlGenero.
+        /// Controle txtBoxEmail.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlGenero;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxEmail;
 
         /// <summary>
         /// Controle btnEnviar.
@@ -67,15 +67,6 @@ namespace WebApplication1
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnEnviar;
-
-        /// <summary>
-        /// Controle btnLimpar.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLimpar;
 
         /// <summary>
         /// Controle pnlCadastro.
@@ -114,39 +105,39 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Panel pnlFiltros;
 
         /// <summary>
-        /// Controle btnFiltroMulheres.
+        /// Controle lblFiltro.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFiltroMulheres;
+        protected global::System.Web.UI.WebControls.Label lblFiltro;
 
         /// <summary>
-        /// Controle btnOrdemAlfabetica.
+        /// Controle txtBoxFiltro.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOrdemAlfabetica;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxFiltro;
 
         /// <summary>
-        /// Controle btnOrdemDeCadastro.
+        /// Controle btnBuscar.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOrdemDeCadastro;
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
 
         /// <summary>
-        /// Controle gvBolsistas.
+        /// Controle gvCoordenadores.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvBolsistas;
+        protected global::System.Web.UI.WebControls.GridView gvCoordenadores;
     }
 }
