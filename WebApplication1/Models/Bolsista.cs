@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using WebApplication1.Models;
 
-namespace WebApplication1.Models
+namespace WebApplication1
 {
-    public partial class Bolsista
+    public partial class Bolsista 
     {
         public string Nome { get; set; }
         public string CPF { get; set; }
@@ -12,7 +13,7 @@ namespace WebApplication1.Models
         public DateTime DataNascimento { get; set; }
         public string Sexo { get; set; }
 
-        public static List<Bolsista> ListaBolsistas { get; set; }
+        public static List<Bolsista> ListaBolsistas { get; set; } = new List<Bolsista>();
         public string Resumo()
         {
             Console.WriteLine("Resumo do Bolsista: ");
@@ -23,6 +24,11 @@ namespace WebApplication1.Models
         {
             int Idade = DateTime.Today.Year - DataNascimento.Year;
             return Idade;
+        }
+
+        public Bolsista()
+        {
+
         }
     }
 

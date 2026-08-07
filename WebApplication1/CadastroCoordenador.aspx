@@ -9,7 +9,6 @@
                 <h2 class="mb-0">Cadastro de Coordenadores</h2>
             </div>
             <div class="card-body">
-                <form>
                     <div class="mb-3">
                         <label class="form-label">Nome Completo:</label>
                         <asp:TextBox runat="server" ID="txtBoxNome" placeholder="Digite o nome" CssClass="form-control"/>
@@ -36,7 +35,7 @@
                         <asp:Panel
                             ID="pnlCadastro"
                             runat="server"
-                            Visible="false"
+                            Visible="True"
                             CssClass="alert alert-success mt-3 shadow-sm">
 
                             <asp:Label ID="lblCadastro" runat="server" Text="Cadastro Realizado!" CssClass="fw-bold" Visible="True"></asp:Label>
@@ -44,8 +43,6 @@
 
                             <asp:Label ID="lblResultado" runat="server" Visible="True" />
                         </asp:Panel>
-                        
-                </form>
             </div>
         </div>
     </div>
@@ -57,9 +54,9 @@
             </div>
             <div class="card-body">
                     <div class="card-body table-responsive">
-                   <asp:Panel ID="pnlFiltros" runat="server" Visible="false">
+                   <asp:Panel ID="pnlFiltros" runat="server" Visible="True">
                       <div class="mb-3">
-                        <asp:Label runat="server" ID="lblFiltro" Text="Filtro:" class="form-label" Visible="true" ></asp:Label>
+                        <asp:Label runat="server" ID="lblFiltro" Text="Filtro:" class="form-label" Visible="True" ></asp:Label>
                         <asp:TextBox Visible="true" runat="server" ID="txtBoxFiltro" CssClass="form-control" placeholder="Digite o filtro:" />
                       </div>
                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-success" OnClick="btn_Buscar"/>

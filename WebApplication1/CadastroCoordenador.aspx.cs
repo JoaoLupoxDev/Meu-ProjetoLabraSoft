@@ -16,7 +16,7 @@ namespace WebApplication1
         {
             if (!IsPostBack)
             {
-                pnlFiltros.Visible = true;
+                pnlCadastro.Visible = false;
                 MontarGridCoordenadores();
             }
 
@@ -24,11 +24,7 @@ namespace WebApplication1
 
         public void btnEnviar_Click(object sender, EventArgs e)
         {
-            pnlFiltros.Visible = false;
             pnlCadastro.Visible = false;
-            lblCadastro.Visible = false;
-            txtBoxFiltro.Visible = false;
-            lblFiltro.Visible = false;
             lblResultado.Text = "";
 
             Coordenador Coordenador = new Coordenador();
@@ -64,15 +60,12 @@ namespace WebApplication1
                 else
                 {
                     ListaCoordenadores.Add(Coordenador);
-                    //substitui a ultima ação de cadastro para redirecionamento da pagina afim de evitar cadastros duplicados ao recarregar a pagina;
 
-                    Response.Redirect("CadastroCoordenador.aspx");
-                    pnlCadastro.Visible = true;
                     pnlFiltros.Visible = true;
-                    lblCadastro.Text = "Cadastro Realizado!";
-                    // text nao aparece quando o controle de visibilidade é feito pela funcao de salvar
-                    //lblResultado.Text = Coordenador.Resumo();
+                    lblCadastro.Text = "Cadastro Realizado! ";
+                    lblResultado.Text = Coordenador.Resumo();
                     MontarGridCoordenadores();
+                    pnlFiltros.Visible = true;
 
                 }
 
@@ -82,7 +75,6 @@ namespace WebApplication1
 
         public void MontarGridCoordenadores()
         {
-
             if (ListaCoordenadores.Count > 0)
             {
                 pnlCadastro.Visible = true;
@@ -96,7 +88,6 @@ namespace WebApplication1
         {
             gvCoordenadores.DataSource = ListaCoordenadores.Where(c => c.Nome.Contains(txtBoxFiltro.Text) || c.Titulacao.Contains(txtBoxFiltro.Text));
             gvCoordenadores.DataBind();
-            //ao apertar enter o pnlFiltros some (corrigir)
         }
     }
 }

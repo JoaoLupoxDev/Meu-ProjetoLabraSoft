@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="CadastroBolsista.aspx.cs" Inherits="WebApplication1.WebForm1" %>
+﻿ <%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="CadastroBolsista.aspx.cs" Inherits="WebApplication1.WebForm1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -67,13 +67,6 @@
                     <div class="card-body table-responsive">
                         <asp:GridView ID="gvBolsistas" runat="server" AutoGenerateColumns="true" 
                               CssClass="table table-striped table-hover table-bordered align-middle">
-                        <%--<Columns>
-                            <asp:BoundField DataField="Nome" HeaderText="Nome Completo" />
-                            <asp:BoundField DataField="CPF" HeaderText="CPF" />
-                            <asp:BoundField DataField="Matricula" HeaderText="Matrícula" />
-                            <asp:BoundField DataField="DataNascimento" HeaderText="Data de Nascimento" DataFormatString="{0:dd/MM/yyyy}" />
-                            <asp:BoundField DataField="Sexo" HeaderText="Sexo" />
-                        </Columns>--%>
                         <EmptyDataTemplate>
                             <div class="text-center text-muted p-3">
                                 Nenhum bolsista cadastrado no momento.

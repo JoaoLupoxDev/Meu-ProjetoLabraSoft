@@ -18,7 +18,7 @@ namespace WebApplication1
                 MontarGrid();
             }
         }
-        private static List<Bolsista> ListaBolsistas = new List<Bolsista>{
+        private static List<Bolsista> ListaBolsistas = new List<Bolsista>{        //para fins de teste
                 new Bolsista
                 {
                     Nome = "Ana Clara Silva",
@@ -101,7 +101,7 @@ namespace WebApplication1
                 }
             };
 
-public void btnEnviar_Click(object sender, EventArgs e)
+        public void btnEnviar_Click(object sender, EventArgs e)
         {
             pnlCadastro.Visible = false;
             lblCadastro.Visible = false;
@@ -110,7 +110,7 @@ public void btnEnviar_Click(object sender, EventArgs e)
             Bolsista Cadastro = new Bolsista();
 
             Cadastro.Nome = txtBoxNome.Text.Trim();
-            //gambiarra para quando matricula nao receber valor nenhum,=.
+            //gambiarra para quando matricula nao receber valor nenhum.
             try
             {
                 Cadastro.Matricula = long.Parse(txtBoxMatricula.Text.Trim());
@@ -151,6 +151,7 @@ public void btnEnviar_Click(object sender, EventArgs e)
                 lblResultado.Text = Cadastro.Resumo();
                 LimparForm();
 
+                
             }
 
         }
