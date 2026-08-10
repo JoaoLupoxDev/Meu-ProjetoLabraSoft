@@ -78,10 +78,55 @@
                                      </div>
                                  </EmptyDataTemplate>
                                </asp:GridView> 
-                               <asp:Panel runat="server" ID="pnl" Visible="false">
+                               <asp:Panel runat="server" ID="pnlDetails" Visible="false" CssClass="card border-info mt-4 shadow-sm">
+                                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">📋 Detalhes do Projeto</h5>
+                                        <asp:Button ID="btnFecharDetalhes" runat="server" Text="✖ Fechar" CssClass="btn btn-sm btn-light" OnClick="btnFecharDetalhes_Click" />
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <p><strong>Título:</strong> <asp:Label ID="lblDetalheTitulo" runat="server" /></p>
+                                                <p><strong>Área do Conhecimento:</strong> <asp:Label ID="lblDetalheArea" runat="server" /></p>
+                                                <p><strong>Coordenador:</strong> <asp:Label ID="lblDetalheCoordenador" runat="server" /></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Verba Destinada:</strong> R$ <asp:Label ID="lblDetalheVerba" runat="server" /></p>
+                                                <p><strong>Valor da Bolsa:</strong> R$ <asp:Label ID="lblDetalheValorBolsa" runat="server" /></p>
+                                            </div>
+                                        </div>
 
-                               </asp:Panel>
-                            </div>
+                                        <h6 class="fw-bold mt-4 mb-3 text-primary">🎓 Bolsistas Vinculados</h6>
+                        
+                                        <asp:Repeater ID="rptBolsistas" runat="server">
+                                            <HeaderTemplate>
+                                                <table class="table table-sm table-bordered table-striped">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Nome</th>
+                                                            <th>Matrícula</th>
+                                                            <th>Sexo</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td><%# Eval("Nome") %></td>
+                                                    <td><%# Eval("Matricula") %></td>
+                                                    <td><%# Eval("Sexo") %></td>
+                                                </tr>
+                                            </ItemTemplate>
+                                            <FooterTemplate>
+                                                    </tbody>
+                                                </table>
+                                            </FooterTemplate>
+                                        </asp:Repeater>
+
+                                        <asp:Label ID="lblSemBolsistas" runat="server" Text="Nenhum bolsista vinculado a este projeto." CssClass="text-muted italic" Visible="false" />
+                                    </div>
+                            </asp:Panel>
+                          </div>
                      </div>
                 </div>
             </div>

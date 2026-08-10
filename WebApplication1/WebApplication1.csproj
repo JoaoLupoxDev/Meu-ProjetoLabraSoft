@@ -88,7 +88,7 @@
     </Compile>
     <Compile Include="Models\Coordenador.cs" />
     <Compile Include="Models\Bolsista.cs" />
-    <Compile Include="Projeto.cs" />
+    <Compile Include="Models\Projeto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Repositorio.cs" />
     <Compile Include="Site1.Master.cs">
