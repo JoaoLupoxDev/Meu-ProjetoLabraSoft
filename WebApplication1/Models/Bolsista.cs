@@ -7,13 +7,13 @@ namespace WebApplication1
 {
     public partial class Bolsista 
     {
+        public int ID { get; set; }
         public string Nome { get; set; }
         public string CPF { get; set; }
         public long Matricula { get; set; }
         public DateTime DataNascimento { get; set; }
         public string Sexo { get; set; }
 
-        public static List<Bolsista> ListaBolsistas { get; set; } = new List<Bolsista>();
         public string Resumo()
         {
             Console.WriteLine("Resumo do Bolsista: ");
@@ -26,10 +26,6 @@ namespace WebApplication1
             return Idade;
         }
 
-        public Bolsista()
-        {
-
-        }
     }
 
 }

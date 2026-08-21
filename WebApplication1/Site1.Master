@@ -1,25 +1,73 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="WebApplication1.Site1" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <title>Formulário Bolsista</title>
+    <title>Gerenciamento de Projetos</title>
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        /* Estilização e alinhamento do menu de navegação */
+        .custom-navbar {
+            background-color: #007bff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .custom-navbar .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 16px !important;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+        }
+        .custom-navbar .nav-link:hover {
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        /* Container centralizado para alinhar o conteúdo principal */
+        .main-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+    </style>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        
+        <!-- Menu de Navegação Centralizado -->
+        <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+            <div class="container-fluid justify-content-center">
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    <a class="nav-link" href="CadastroBolsista.aspx">CADASTRO DE BOLSISTAS</a>
+                    <a class="nav-link" href="CadastroCoordenador.aspx">CADASTRO DE COORDENADORES</a>
+                    <a class="nav-link" href="CadastroProjeto.aspx">CADASTRO DE PROJETOS</a>
+                    <a class="nav-link" href="CadastroDespesa.aspx">CADASTRO DESPESA</a>
+                    <a class="nav-link" href="ExemploBolsista.aspx">EXEMPLO BOLSISTAS</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Área de Conteúdo Centralizada -->
+        <div class="main-container">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
+
     </form>
+
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 </body>
 </html>

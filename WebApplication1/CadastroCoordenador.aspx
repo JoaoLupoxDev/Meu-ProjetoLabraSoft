@@ -32,10 +32,10 @@
 
                     <hr />
                     <asp:Button ID="btnEnviar" runat="server" CssClass="btn btn-success" OnClick="btnEnviar_Click" Text="Salvar"/>
-                        <asp:Panel
+                        <asp:Panel 
                             ID="pnlCadastro"
                             runat="server"
-                            Visible="True"
+                            Visible="false"
                             CssClass="alert alert-success mt-3 shadow-sm">
 
                             <asp:Label ID="lblCadastro" runat="server" Text="Cadastro Realizado!" CssClass="fw-bold" Visible="True"></asp:Label>
@@ -43,7 +43,7 @@
 
                             <asp:Label ID="lblResultado" runat="server" Visible="True" />
                         </asp:Panel>
-            </div>
+                </div>
         </div>
     </div>
     
@@ -61,21 +61,63 @@
                       </div>
                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-success" OnClick="btn_Buscar"/>
                    </asp:Panel><br />
+                          <!-- COLUNA DE AÇÕES NO GRIDVIEW -->
                         <asp:GridView ID="gvCoordenadores" runat="server" AutoGenerateColumns="true" 
-                              CssClass="table table-striped table-hover table-bordered align-middle">
-                        <%--<Columns>
-                            <asp:BoundField DataField="Nome" HeaderText="Nome Completo" />
-                            <asp:BoundField DataField="CPF" HeaderText="CPF" />
-                            <asp:BoundField DataField="Matricula" HeaderText="Matrícula" />
-                            <asp:BoundField DataField="DataNascimento" HeaderText="Data de Nascimento" DataFormatString="{0:dd/MM/yyyy}" />
-                            <asp:BoundField DataField="Sexo" HeaderText="Sexo" />
-                        </Columns>--%>
-                        <EmptyDataTemplate>
-                            <div class="text-center text-muted p-3">
-                                <h3>Nenhum coordenador cadastrado no momento.</h3>
+                            DataKeyNames="ID"
+                            CssClass="table table-striped table-hover table-bordered align-middle" 
+                            OnRowCommand="gvCoordenadores_RowCommand">
+                            <Columns>
+                                <asp:TemplateField HeaderText="Ações">
+                                    <ItemTemplate>
+                                        <asp:Button ID="btnEditar" runat="server" Text="✏ Editar" 
+                                            CommandName="Editar" 
+                                            CommandArgument='<%# Container.DataItemIndex %>' 
+                                            CssClass="btn btn-sm btn-warning" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+
+                        <!-- CARD DE EDIÇÃO (IGUAL AO ESBOÇO) -->
+                        <asp:Panel ID="pnlEditarCoordenador" runat="server" Visible="false" CssClass="card shadow mt-4">
+                            <div class="card-header bg-warning text-dark">
+                                <h3 class="mb-0 fs-4">EDITAR</h3>
                             </div>
-                        </EmptyDataTemplate>
-                      </asp:GridView>              
+                            <div class="card-body">
+                                <asp:HiddenField ID="hfCoordenadorID" runat="server" />
+
+                                <div class="mb-3">
+                                    <label class="form-label">Nome:</label>
+                                    <asp:TextBox ID="txtEditarNome" runat="server" CssClass="form-control" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">E-mail:</label>
+                                    <asp:TextBox ID="txtEditarEmail" runat="server" CssClass="form-control" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Titulação:</label>
+                                    <asp:TextBox ID="txtEditarTitulacao" runat="server" CssClass="form-control" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Área de Atuação:</label>
+                                    <asp:TextBox ID="txtEditarAreaAtuacao" runat="server" CssClass="form-control" />
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <asp:Button ID="btnExcluirEditar" runat="server" Text="EXCLUIR" 
+                                        CssClass="btn btn-danger" 
+                                        OnClick="btnExcluirEditar_Click" 
+                                        OnClientClick="return confirm('Deseja realmente excluir este coordenador?');" />
+
+                                    <asp:Button ID="btnSalvarEditar" runat="server" Text="SALVAR" 
+                                        CssClass="btn btn-success" 
+                                        OnClick="btnSalvarEditar_Click" />
+                                </div>
+                            </div>
+                        </asp:Panel>              
                    </div>
             </div>
    </div>

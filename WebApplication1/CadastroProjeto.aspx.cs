@@ -14,117 +14,105 @@ namespace WebApplication1
         {
             if (!IsPostBack)
             {
-                if (Bolsista.ListaBolsistas.Count == 0) //para fins de teste
+                if (Repositorio.ContarBolsistas() == 0)
                 {
-                    Bolsista.ListaBolsistas.Add(new Bolsista { Nome = "João Silva", Matricula = 12345, CPF = "111.111.111-11", Sexo = "Masculino" });
-                    Bolsista.ListaBolsistas.Add(new Bolsista { Nome = "Maria Souza", Matricula = 67890, CPF = "222.222.222-22", Sexo = "Feminino"});
+                    lblBolsistasEmpty.Visible = true;
                 }
-
-                if (CadastroCoordenador.ListaCoordenadores.Count == 0) //para fins de teste
+                if (Repositorio.ObterDadosCoordenador().Count == 0)
                 {
-                    CadastroCoordenador.ListaCoordenadores.Add(new Coordenador { Nome = "Prof. Carlos", CPF = "333.333.333-33" });
-                    CadastroCoordenador.ListaCoordenadores.Add(new Coordenador { Nome = "Profa. Ana", CPF = "444.444.444-44" });
+                    lblCoordenadoresEmpty.Visible = true;
                 }
                 pnlSalvar.Visible = false;
-                ddlCoordenadores.DataSource = CadastroCoordenador.ListaCoordenadores;
+
+                // Carrega DropDown list de Coordenadores
+                ddlCoordenadores.DataSource = Repositorio.ObterDadosCoordenador();
                 ddlCoordenadores.DataTextField = "Nome";
-                ddlCoordenadores.DataValueField= "CPF";
+                ddlCoordenadores.DataValueField = "CPF";
                 ddlCoordenadores.DataBind();
 
-                lstBoxBolsistas.DataSource = Bolsista.ListaBolsistas;
-                lstBoxBolsistas.DataTextField = "Nome";
-                lstBoxBolsistas.DataValueField = "Matricula";
-                lstBoxBolsistas.DataBind();
+                // Carrega apenas bolsistas sem nenhum projeto vinculado
+                CarregarBolsistasDisponiveis();
 
                 MontarGrid();
             }
-        } 
+        }
 
         public void btnEnviar_Click(object sender, EventArgs e)
         {
-         
+            pnlSalvar.Visible = false;
             string CpfSelecionado = ddlCoordenadores.SelectedValue;
-            Coordenador ObjCoordenador = CadastroCoordenador.ListaCoordenadores.FirstOrDefault(x => x.CPF == CpfSelecionado);
-            //criação do objeto da classe Projeto
+            Coordenador ObjCoordenador = Repositorio.ObterDadosCoordenador().FirstOrDefault(x => x.CPF == CpfSelecionado);
+
+            // Criação do objeto da classe Projeto
             Projeto ObjProjeto = new Projeto();
-            ObjProjeto.AreaConhecimento = txtBoxAreaConhecimento.Text.Trim();     
-            try
-            {
-                double.TryParse(txtBoxValorBolsa.Text.Trim(), out double ValorBolsa);
-                ObjProjeto.ValorBolsa = ValorBolsa;
-            }
-            catch
-            {
-                ObjProjeto.ValorBolsa = 0;
-            }
+            ObjProjeto.AreaConhecimento = txtBoxAreaConhecimento.Text.Trim();
+
+            double.TryParse(txtBoxValorBolsa.Text.Trim(), out double ValorBolsa);
+            ObjProjeto.ValorBolsa = ValorBolsa;
+
             ObjProjeto.Titulo = txtBoxTitulo.Text.Trim();
-            try
-            {
-                double.TryParse(txtBoxVerba.Text.Trim(), out double VerbaDouble);
-                ObjProjeto.Verba = VerbaDouble;
-            }
-            catch
-            {
-                ObjProjeto.Verba = 0;
-            }
-            ObjProjeto.Coordenador = ObjCoordenador;        
-            foreach (ListItem item in lstBoxBolsistas.Items)
-            {
-                if (item.Selected)
-                {
-                    if (long.TryParse(item.Value, out long matricula))
-                    {
-                        Bolsista BolsistaEncontrado = Bolsista.ListaBolsistas.FirstOrDefault(b => b.Matricula == matricula);
-                        if (BolsistaEncontrado != null)
-                        {
-                            ObjProjeto.Bolsistas.Add(BolsistaEncontrado);
-                        }
-                    }
-                }
-            }
+
+            double.TryParse(txtBoxVerba.Text.Trim(), out double VerbaDouble);
+            ObjProjeto.Verba = VerbaDouble;
+
+            ObjProjeto.Coordenador = ObjCoordenador;
+
+            // Validação dos campos antes de salvar no banco
             if (string.IsNullOrWhiteSpace(ObjProjeto.Titulo) ||
-               string.IsNullOrWhiteSpace(ObjProjeto.AreaConhecimento) ||
-               string.IsNullOrWhiteSpace(ObjProjeto.ValorBolsa.ToString()) ||
-               string.IsNullOrWhiteSpace(ObjProjeto.Verba.ToString()) || ObjProjeto.Bolsistas == null ) //nao colocquei para caso o coordenador esteja vazio pois nao tem como nao selecionar um coordenador
+                string.IsNullOrWhiteSpace(ObjProjeto.AreaConhecimento) ||
+                ObjProjeto.ValorBolsa <= 0 ||
+                ObjProjeto.Verba <= 0)
             {
                 pnlSalvar.Visible = true;
-                pnlSalvar.CssClass = 
+                pnlSalvar.CssClass = "alert alert-danger mt-3 shadow-sm";
                 lblSalvar.Text = "Cadastro não realizado!";
                 lblResultado.Text = "Preencha todos os campos corretamente.";
-                pnlSalvar.CssClass = "alert alert-danger mt-3 shadow-sm";
             }
             else
             {
+                // Salva o projeto e recupera o ID gerado
+                int projetoIdGerado = Repositorio.SalvarProjeto(ObjProjeto);
+
+                // Percorre apenas os bolsistas selecionados com ID válido (> 0)
+                foreach (ListItem item in lstBoxBolsistas.Items)
+                {
+                    if (item.Selected)
+                    {
+                        if (int.TryParse(item.Value, out int bolsistaId) && bolsistaId > 0)
+                        {
+                            Repositorio.SalvarProjetoBolsista(projetoIdGerado, bolsistaId);
+                        }
+                    }
+                }
+
                 pnlSalvar.CssClass = "alert alert-success mt-3 shadow-sm";
                 pnlSalvar.Visible = true;
                 lblSalvar.Text = "Cadastro realizado!";
-                Repositorio.Projetos.Add(ObjProjeto);
+                lblResultado.Text = string.Empty;
+
+                // Recarrega a lista do formulário para remover os bolsistas recém-vinculados
+                CarregarBolsistasDisponiveis();
+
                 MontarGrid();
             }
         }
-         public void lstBoxBolsistas_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
         public void MontarGrid()
         {
-            gvProjetos.DataSource = Repositorio.Projetos;
+            gvProjetos.DataSource = Repositorio.ObterDadosProjeto();
             gvProjetos.DataBind();
         }
-        public void btn_Detalhes(object sender, EventArgs e)
-        {
 
-        }
         public void gvProjetos_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "VerDetalhes")
             {
+                pnlEditarProjeto.Visible = false;
                 int indice = Convert.ToInt32(e.CommandArgument);
-                Projeto ProjetoSelecionado = Repositorio.Projetos[indice];
+                Projeto ProjetoSelecionado = Repositorio.ObterDadosProjeto()[indice];
 
                 if (ProjetoSelecionado != null)
                 {
-                    // Preenche as informações gerais do projeto nos Labels
                     lblDetalheTitulo.Text = ProjetoSelecionado.Titulo;
                     lblDetalheArea.Text = ProjetoSelecionado.AreaConhecimento;
                     lblDetalheVerba.Text = ProjetoSelecionado.Verba.ToString("N2");
@@ -133,10 +121,11 @@ namespace WebApplication1
                         ? ProjetoSelecionado.Coordenador.Nome
                         : "Não Informado";
 
-                    // Alimenta o Repeater de Bolsistas
-                    if (ProjetoSelecionado.Bolsistas != null && ProjetoSelecionado.Bolsistas.Count > 0)
+                    List<Bolsista> bolsistasDoBanco = Repositorio.ObterBolsistasPorProjeto(ProjetoSelecionado.ID);
+
+                    if (bolsistasDoBanco.Count > 0)
                     {
-                        rptBolsistas.DataSource = ProjetoSelecionado.Bolsistas;
+                        rptBolsistas.DataSource = bolsistasDoBanco;
                         rptBolsistas.DataBind();
                         rptBolsistas.Visible = true;
                         lblSemBolsistas.Visible = false;
@@ -147,14 +136,130 @@ namespace WebApplication1
                         lblSemBolsistas.Visible = true;
                     }
 
-                    // Exibe o painel de detalhes
                     pnlDetails.Visible = true;
                 }
             }
+            else if (e.CommandName == "Editar")
+            {
+                pnlDetails.Visible = false;
+                int indice = Convert.ToInt32(e.CommandArgument);
+                Projeto proj = Repositorio.ObterDadosProjeto()[indice];
+
+                if (proj != null)
+                {
+                    hfProjetoID.Value = proj.ID.ToString();
+                    lblNomeProjetoEditar.Text = proj.Titulo;
+
+                    // Alimenta o ListBox do painel de edição apenas com bolsistas livres + os cadastrados neste projeto
+                    lstEditarBolsistas.DataSource = Repositorio.ObterBolsistasDisponiveis(proj.ID);
+                    lstEditarBolsistas.DataTextField = "Nome";
+                    lstEditarBolsistas.DataValueField = "ID";
+                    lstEditarBolsistas.DataBind();
+
+                    // Marca os bolsistas que já estão vinculados a este projeto
+                    List<Bolsista> bolsistasVinculados = Repositorio.ObterBolsistasPorProjeto(proj.ID);
+                    foreach (ListItem item in lstEditarBolsistas.Items)
+                    {
+                        item.Selected = bolsistasVinculados.Any(b => b.ID.ToString() == item.Value);
+                    }
+
+                    pnlEditarProjeto.Visible = true;
+                }
+            }
         }
+
+        // SALVA AS ALTERAÇÕES DE BOLSISTAS (ADICIONAR/REMOVER)
+        protected void btnSalvarEditar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int projetoId = Convert.ToInt32(hfProjetoID.Value);
+
+                List<int> idsBolsistasSelecionados = new List<int>();
+                foreach (ListItem item in lstEditarBolsistas.Items)
+                {
+                    if (item.Selected && int.TryParse(item.Value, out int bId))
+                    {
+                        idsBolsistasSelecionados.Add(bId);
+                    }
+                }
+
+                // Atualiza a tabela associativa ProjetoBolsista
+                Repositorio.AtualizarBolsistasDoProjeto(projetoId, idsBolsistasSelecionados);
+
+                pnlEditarProjeto.Visible = false;
+                pnlSalvar.CssClass = "alert alert-success mt-3 shadow-sm";
+                pnlSalvar.Visible = true;
+                lblSalvar.Text = "Sucesso!";
+                lblResultado.Text = "Bolsistas do projeto atualizados com sucesso.";
+
+                // Atualiza o ListBox do formulário de novo cadastro
+                CarregarBolsistasDisponiveis();
+
+                MontarGrid();
+            }
+            catch (Exception)
+            {
+                pnlSalvar.CssClass = "alert alert-danger mt-3 shadow-sm";
+                pnlSalvar.Visible = true;
+                lblSalvar.Text = "Erro ao Atualizar!";
+                lblResultado.Text = "Ocorreu uma falha ao tentar atualizar os bolsistas do projeto.";
+            }
+        }
+
+        // EXCLUI O PROJETO INTEIRO DENTRO DO CARD DE EDIÇÃO
+        protected void btnExcluirEditar_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(hfProjetoID.Value, out int id))
+            {
+                try
+                {
+                    Repositorio.DeletarProjeto(id);
+
+                    pnlEditarProjeto.Visible = false;
+                    pnlSalvar.CssClass = "alert alert-success mt-3 shadow-sm";
+                    pnlSalvar.Visible = true;
+                    lblSalvar.Text = "Sucesso!";
+                    lblResultado.Text = "Projeto excluído com sucesso.";
+
+                    // Atualiza a lista de bolsistas disponíveis (pois os bolsistas do projeto excluído foram liberados)
+                    CarregarBolsistasDisponiveis();
+
+                    MontarGrid();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    pnlSalvar.CssClass = "alert alert-danger mt-3 shadow-sm";
+                    pnlSalvar.Visible = true;
+                    lblSalvar.Text = "Exclusão Não Permitida!";
+                    lblResultado.Text = ex.Message;
+                }
+                catch (Exception)
+                {
+                    pnlSalvar.CssClass = "alert alert-danger mt-3 shadow-sm";
+                    pnlSalvar.Visible = true;
+                    lblSalvar.Text = "Erro ao Excluir!";
+                    lblResultado.Text = "Ocorreu uma falha ao tentar excluir o projeto.";
+                }
+            }
+        }
+
+        protected void btnCancelarEditar_Click(object sender, EventArgs e)
+        {
+            pnlEditarProjeto.Visible = false;
+        }
+
         public void btnFecharDetalhes_Click(object sender, EventArgs e)
         {
             pnlDetails.Visible = false;
+        }
+
+        private void CarregarBolsistasDisponiveis()
+        {
+            lstBoxBolsistas.DataSource = Repositorio.ObterBolsistasDisponiveis();
+            lstBoxBolsistas.DataTextField = "Nome";
+            lstBoxBolsistas.DataValueField = "ID";
+            lstBoxBolsistas.DataBind();
         }
     }
 }
